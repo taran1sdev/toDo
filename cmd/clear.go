@@ -8,9 +8,9 @@ import (
 var clearCmd = &cobra.Command {
 	Use: "clear",
 	Short: "Clear all tasks from your todo list",
-	Run: func(cmd *cobra.Command, args []strings) {
+	Run: func(cmd *cobra.Command, args []string) {
 		//Clear all tasks from DB
-	}
+	},
 }
 
 func init() {

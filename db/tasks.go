@@ -6,7 +6,7 @@ import (
 	"encoding/binary"
 )
 
-var db = *bolt.DB
+var db *bolt.DB
 var taskBucket = []byte("tasks")
 
 type Task struct {
@@ -14,27 +14,28 @@ type Task struct {
 	Value string
 } 
 
-func Init(dbPath string) err error {
+func Init(dbPath string) (err error) {
 	db, err = bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
 	if err != nil{
 		return err
 	}
 	return db.Update(func (tx *bolt.Tx) error {
-		_, err := tx.CreateIfNotExists(taskBucket)
+		_, err := tx.CreateBucketIfNotExists(taskBucket)
+		return err
 	}) 
 }
 
 // Adds task to our db Bucket
 
-func AddTask(task string) (id int, error) {
-	err := db.Update(func (tx *bolt.Tx) error {
+func AddTask(task string) (id int, err error) {
+	err = db.Update(func (tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
 		id64, _ := b.NextSequence()
 		id = int(id64)
-		return b.Put(intToByte(id64), []byte(task))
+		return b.Put(intToByte(id), []byte(task))
 	})
 
-	if err := nil {
+	if err != nil {
 		return -1, err
 	}
 	return id, nil

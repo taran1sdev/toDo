@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"strings"
 	"fmt"
 	"strconv"
 
@@ -13,15 +12,15 @@ var doCmd = &cobra.Command {
 	Short: "Complete an item on your todo list",
 	Run: func(cmd *cobra.Command, args []string) {
 		var tasks []int
-		for _, strArg := args {
-			taskInt, err = strconv.Atoi(strArg)
+		for _, strArg := range args {
+			taskInt, err := strconv.Atoi(strArg)
 			if err != nil{
 				fmt.Printf("Argument %v invalid - must be an integer value.", strArg)
 				continue
 			}
 			tasks = append(tasks, taskInt)
 		}
-	}
+	},
 }
 
 func init(){
