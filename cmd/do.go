@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 	"strconv"
-
+	"todo/db"
+	
 	"github.com/spf13/cobra"
 )
 
@@ -20,6 +21,19 @@ var doCmd = &cobra.Command {
 			}
 			tasks = append(tasks, taskInt)
 		}
+		
+		err := db.DoTasks(tasks)
+		if err != nil {
+			fmt.Println("Error occured while deleting task:", err)
+		} else {
+			newTasks, _ := db.GetTasks() 
+			fmt.Println("Still left to do!")
+			
+			for _, task := range newTasks {
+				fmt.Printf("%d) %v\n", task.Key, task.Value)
+			}
+		}
+	    
 	},
 }
 

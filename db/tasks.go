@@ -59,6 +59,8 @@ func Clear() error {
 	})
 }
 
+// Returns all tasks to be listed to user 
+
 func GetTasks() (tasks []Task, err error) {
 	err = db.View(func (tx *bolt.Tx) error {
 		bucket := tx.Bucket(taskBucket)
@@ -76,7 +78,18 @@ func GetTasks() (tasks []Task, err error) {
 	return tasks, nil
 }
 
+// Removes tasks from db 
 
+func DoTasks(keys []int) error {
+	return db.Update(func (tx *bolt.Tx) error {
+		bucket := tx.Bucket(taskBucket)
+
+		for _, key := range keys {
+			bucket.Delete(intToByte(key))	
+		}
+		return nil
+	})
+} 
 
 
 
