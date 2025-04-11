@@ -50,3 +50,23 @@ func intToByte(i int) []byte {
 func byteToInt(b []byte) int {
 	return int(binary.BigEndian.Uint64(b))
 }
+
+// Deletes our current bucket removing all tasks
+
+func Clear() error {
+	return db.Update(func (tx *bolt.Tx) error {
+		return tx.DeleteBucket(taskBucket)
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
