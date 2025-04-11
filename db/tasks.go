@@ -59,7 +59,22 @@ func Clear() error {
 	})
 }
 
+func GetTasks() (tasks []Task, err error) {
+	err = db.View(func (tx *bolt.Tx) error {
+		bucket := tx.Bucket(taskBucket)
 
+		c := bucket.Cursor()
+
+		for k, v := c.First(); k != nil; k, v = c.Next(){
+			tasks = append(tasks, Task{byteToInt(k), string(v[:])})
+		}
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
+	return tasks, nil
+}
 
 
 
