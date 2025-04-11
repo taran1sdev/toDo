@@ -10,7 +10,8 @@ import (
 
 var doCmd = &cobra.Command {
 	Use: "do",
-	Short: "Complete an item on your todo list",
+	Short: "Complete a item(s) on your todo list",
+	Example: "todo do 1 2 3",
 	Run: func(cmd *cobra.Command, args []string) {
 		var tasks []int
 		for _, strArg := range args {

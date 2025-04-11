@@ -12,6 +12,7 @@ import (
 var addCmd = &cobra.Command{
 	Use: "add",
 	Short: "Add a task to the todo list",
+	Example: "todo add Finish writing README.md",
 	Run: func(cmd *cobra.Command, args []string) {
 		task := strings.Join(args, " ")
 		id, err := db.AddTask(task)
